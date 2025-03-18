@@ -67,6 +67,18 @@
 	}
 }
 
+.card-title-view-transition-liquidity {
+	view-transition-name: ranking-title-liquidity;
+}
+
+.card-title-view-transition-connectivity {
+	view-transition-name: ranking-title-connectivity;
+}
+
+.lightning-transition {
+	view-transition-name: lightning-transition;
+}
+
 @layer base {
 	* {
 		@apply border-border;
@@ -76,4 +88,3 @@
 		@apply font-sans;
 	}
 }
-
