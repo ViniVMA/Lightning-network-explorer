@@ -1,9 +1,14 @@
 import { mempoolRequest } from './api';
 import type { NodeList } from './types/node-list';
 
-const realNodesApi = {
-	getTop100ByConnectivity: () =>
-		mempoolRequest<NodeList[]>('/v1/lightning/nodes/rankings/connectivity')
+export type NodesApiTop100 = {
+	connectivity: () => Promise<NodeList[]>;
+	liquidity: () => Promise<NodeList[]>;
 };
 
-export const nodesApi = realNodesApi;
+const realNodesApi: NodesApiTop100 = {
+	connectivity: () => mempoolRequest<NodeList[]>('/v1/lightning/nodes/rankings/connectivity'),
+	liquidity: () => mempoolRequest<NodeList[]>('/v1/lightning/nodes/rankings/liquidity')
+};
+
+export const nodesApiTop100 = realNodesApi;
