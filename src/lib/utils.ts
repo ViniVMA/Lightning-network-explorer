@@ -16,9 +16,9 @@ export function satoshisToBtc(satoshis: number) {
 }
 
 export function getPercentageOfTotal(total: number, value: number) {
-	return (value / total) * 100;
+	return total === 0 ? Infinity : (value / total) * 100;
 }
 
 export function dateParser(unixTime: number) {
-	new Date(unixTime * 1000).toLocaleDateString('pt-BR');
+	return new Date(unixTime * 1000).toISOString().split('T')[0].split('-').reverse().join('/');
 }
