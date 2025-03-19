@@ -20,7 +20,7 @@
 
 		<div class="flex flex-col gap-2">
 			<div>Top 100</div>
-			<div class={`card-title-view-transition-${slug} text-6xl capitalize md:text-8xl`}>{slug}</div>
+			<div class={`card-title-view-transition-${slug} text-4xl capitalize md:text-8xl`}>{slug}</div>
 		</div>
 	</div>
 	<div class="container mx-auto">
