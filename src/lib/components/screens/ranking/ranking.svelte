@@ -4,6 +4,7 @@
 	import { dateParser, getPercentageOfTotal, satoshisToBtc } from '$lib/utils';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
+	import { Button } from '$lib/components/ui/button';
 
 	const slug = $derived($page.params.slug as keyof NodesApiTop100);
 
@@ -23,8 +24,15 @@
 	);
 </script>
 
-{#if $nodeQuery.isLoading}
-	<div>Loading...</div>
+{#if $nodeQuery.isError}
+	<div class="flex flex-col place-items-center justify-center py-8">
+		<h3>Error in loading ranking data</h3>
+		<Button on:click={() => $nodeQuery.refetch()} class="max-w-40">Retry</Button>
+	</div>
+{:else if $nodeQuery.isLoading}
+	<div class="flex flex-col place-items-center justify-center py-8">
+		<h3>Loading...</h3>
+	</div>
 {:else if $nodeQuery.data}
 	<Table.Root class="mt-8 rounded bg-white md:mt-24">
 		<Table.Header>
