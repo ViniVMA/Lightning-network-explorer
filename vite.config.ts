@@ -7,5 +7,10 @@ export default defineConfig({
 		? {
 				conditions: ['browser']
 			}
-		: undefined
+		: undefined,
+	test: {
+		globals: true,
+		environment: 'jsdom',
+		setupFiles: './setupTests.ts'
+	}
 });
