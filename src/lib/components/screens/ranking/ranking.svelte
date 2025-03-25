@@ -5,10 +5,13 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
+	import Fuse from 'fuse.js';
 
 	const slug = $derived($page.params.slug as keyof NodesApiTop100);
 
 	const query = $derived(nodesApiTop100[slug]);
+
+	let searchQuery = $state('');
 
 	const nodeQuery = $derived(
 		createQuery({
@@ -17,6 +20,12 @@
 			refetchInterval: 10000,
 			refetchOnWindowFocus: true
 		})
+	);
+
+	const fuse = new Fuse($nodeQuery?.data ?? [], { keys: ['alias'] });
+
+	const dataToRender = $derived(
+		searchQuery ? fuse.search(searchQuery).map(({ item }) => item) : $nodeQuery?.data
 	);
 
 	const totalChannels = $derived(
@@ -36,6 +45,11 @@
 {:else if $nodeQuery.data}
 	<Table.Root class="mt-8 rounded bg-white md:mt-24">
 		<Table.Header>
+			<input
+				onkeyupcapture={(e) => (searchQuery = e.currentTarget.value)}
+				placeholder="Search by name"
+				class="m-2 border-[1px] border-gray-100 p-2 px-2"
+			/>
 			<Table.Row>
 				<Table.Head class="w-full sm:w-[100px]">Alias</Table.Head>
 				<Table.Head class=" hidden sm:table-cell">Capacity</Table.Head>
@@ -47,7 +61,7 @@
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{#each $nodeQuery?.data as address, i (i)}
+			{#each dataToRender ?? [] as address, i (i)}
 				<Table.Row>
 					<Table.Cell class="font-medium">{address.alias}</Table.Cell>
 					<Table.Cell class=" hidden sm:table-cell"
