@@ -49,7 +49,7 @@ Probably the interface as I'm not the best UI/UX, so the whole interface ended u
 To run the appplication tests, run:
 
 ```bash
-npm run build
+npm run test
 ```
 
 ## Building
